@@ -3,17 +3,20 @@ from icecream import ic, install
 import logging
 import time
 
+# Set logging level to your liking
+LOG_LEVEL = logging.INFO
+
 
 def get_logger():
     """
-    Create and return a logger with the given name.
+    Create and return a logger
     """
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     handler = logging.StreamHandler()
     handler.setFormatter(formatter)
 
     logger = logging.getLogger()
-    logger.setLevel(logging.INFO)
+    logger.setLevel(LOG_LEVEL)
 
     if not logger.handlers:
         logger.addHandler(handler)
@@ -23,7 +26,7 @@ def get_logger():
 
 logger = get_logger()
 
-# Configure icecream
+# Configure icecream & redirect output to logger.info
 ic.configureOutput(includeContext=True,
                    outputFunction=lambda s: logger.info(s))
 
@@ -32,6 +35,9 @@ install()
 
 
 def timer(func):
+    """
+    Create and return a decorator for measuring times
+    """
     @wraps(func)
     def wrapper_timer(*args, **kwargs):
         tic = time.perf_counter()

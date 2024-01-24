@@ -1,7 +1,6 @@
-from logger import get_logger, timer
+from logger import logger, timer
 from llama_index import VectorStoreIndex, SimpleDirectoryReader, StorageContext, load_index_from_storage
 import os.path
-logger = get_logger()
 
 
 class IndexHelper:
@@ -32,6 +31,7 @@ class QueryHelper:
 
 
 if __name__ == '__main__':
+    logger.info("Starting main")
     index_manager = IndexHelper()
     query_runner = QueryHelper(index_manager.get_index())
     resp = query_runner.run_query("How do I get started in AI?")
@@ -40,6 +40,7 @@ if __name__ == '__main__':
 
 # Expected Output:
 # ----------------
+# 2024-01-24 08:24:44,266 - INFO - Starting main
 # 2024-01-23 18:50:51,251 - INFO - ic| main.py:12 in get_index()
 #     'index not found. creating new one': 'index not found. creating new one'
 #     persist_dir: './storage'
