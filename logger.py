@@ -1,20 +1,19 @@
 from functools import wraps
-from icecream import ic
+from icecream import ic, install
 import logging
 import time
 
 
-def get_logger(name):
+def get_logger():
     """
     Create and return a logger with the given name.
     """
-    filename = name.split('/')[-1]
-    formatter = logging.Formatter('%(asctime)s - %(filename)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     handler = logging.StreamHandler()
     handler.setFormatter(formatter)
 
-    logger = logging.getLogger(name)
-    logger.setLevel(logging.DEBUG)
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
 
     if not logger.handlers:
         logger.addHandler(handler)
@@ -22,9 +21,14 @@ def get_logger(name):
     return logger
 
 
-logger = get_logger(__file__)
+logger = get_logger()
+
+# Configure icecream
 ic.configureOutput(includeContext=True,
                    outputFunction=lambda s: logger.info(s))
+
+# Installing icecream makes `ic()` available to all files without needing import
+install()
 
 
 def timer(func):
